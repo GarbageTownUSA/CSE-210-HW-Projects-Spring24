@@ -17,6 +17,19 @@
         },
 
         {
+            "name": "Die Roller",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-sandbox-Die Roller",
+            "program": "${workspaceFolder}/sandbox/Die Roller/bin/Debug/net8.0/Die Roller.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/sandbox/Die Roller",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "stopAtEntry": false
+        },
+
+        {
             "name": "C# Prep 1",
             "type": "coreclr",
             "request": "launch",

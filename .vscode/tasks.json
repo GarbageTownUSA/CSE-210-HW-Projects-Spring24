@@ -17,6 +17,19 @@
         },
 
         {
+            "label": "build-sandbox-Die Roller",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/sandbox/Die Roller/Die Roller.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+
+        {
             "label": "build-csharp-prep-Prep1",
             "command": "dotnet",
             "type": "process",
