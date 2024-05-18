@@ -1,0 +1,151 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Journal journal = new Journal();
+
+        Console.Write("Enter filename to load the journal: ");
+        string loadFilename = Console.ReadLine();
+        if (File.Exists(loadFilename))
+        {
+            journal.LoadJournal(loadFilename);
+            Console.WriteLine("Journal loaded successfully.");
+        }
+        else
+        {
+            Console.WriteLine("File not found. Starting with an empty journal.");
+        }
+
+        int menuInput = 0;
+
+        while (menuInput != 4)
+        {
+            Console.WriteLine("Journal Menu:");
+            Console.WriteLine("1. Write a new entry");
+            Console.WriteLine("2. Show the journal");
+            Console.WriteLine("3. Save the journal");
+            Console.WriteLine("4. Quit");
+
+            if (int.TryParse(Console.ReadLine(), out menuInput))
+            {
+                switch (menuInput)
+                {
+                    case 1:
+                        journal.AddEntry();
+                        break;
+                    case 2:
+                        journal.ShowJournal();
+                        break;
+                    case 3:
+                        Console.Write("Enter filename to save the journal: ");
+                        string saveFilename = Console.ReadLine();
+                        journal.SaveJournal(saveFilename);
+                        break;
+                    case 4:
+                        Console.WriteLine("Goodbye!");
+                        break;
+                    default:
+                        Console.WriteLine("Invalid option, please try again.");
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Please enter a number between 1 and 4.");
+            }
+        }
+    }
+}
+
+class Prompt
+{
+    public string Text { get; set; }
+
+    public Prompt(string text)
+    {
+        Text = text;
+    }
+}
+
+class Entry
+{
+    public string Text { get; set; }
+    public string Prompt { get; set; }
+    public string Date { get; set; }
+
+    public Entry(string text, string prompt, string date)
+    {
+        Text = text;
+        Prompt = prompt;
+        Date = date;
+    }
+}
+
+class Journal
+{
+    private List<Entry> entries = new List<Entry>();
+    private List<Prompt> prompts = new List<Prompt>()
+    {
+        new Prompt("Who was the most interesting person I interacted with today?"),
+        new Prompt("What was the best part of my day?"),
+        new Prompt("How did I see the hand of the Lord in my life today?"),
+        new Prompt("What was the strongest emotion I felt today?"),
+        new Prompt("If I had one thing I could do over today, what would it be?")
+    };
+
+    public void AddEntry()
+    {
+        Random rnd = new Random();
+        int index = rnd.Next(prompts.Count);
+        Console.WriteLine(prompts[index].Text);
+
+        string response = Console.ReadLine();
+        entries.Add(new Entry(response, prompts[index].Text, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+    }
+
+    public void ShowJournal()
+    {
+        Console.WriteLine("Journal Entries: ");
+        foreach (var entry in entries)
+        {
+            Console.WriteLine($"{entry.Date} - {entry.Prompt}");
+            Console.WriteLine(entry.Text);
+            Console.WriteLine();
+        }
+    }
+
+    public void SaveJournal(string filename)
+    {
+        using (StreamWriter writer = new StreamWriter(filename))
+        {
+            foreach (var entry in entries)
+            {
+                writer.WriteLine($"{entry.Date}|{entry.Prompt}|{entry.Text}");
+            }
+        }
+    }
+
+    public void LoadJournal(string filename)
+    {
+        entries.Clear();
+        using (StreamReader reader = new StreamReader(filename))
+        {
+            while (!reader.EndOfStream)
+            {
+                string[] entryData = reader.ReadLine().Split('|');
+                if (entryData.Length == 3)
+                {
+                    string date = entryData[0];
+                    string prompt = entryData[1];
+                    string text = entryData[2];
+
+                    entries.Add(new Entry(text, prompt, date));
+                }
+            }
+        }
+    }
+}
