@@ -71,6 +71,3 @@ class Program
             Console.WriteLine("Failed to save the journal.");
     }
 }
-
-
-
