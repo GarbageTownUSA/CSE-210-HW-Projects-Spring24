@@ -1,0 +1,6 @@
+UserScore:100
+UserXP:100
+UserLevel:1
+SimpleGoal|Simple|False
+EternalGoal|2|True
+ChecklistGoal|3|False|5|0
