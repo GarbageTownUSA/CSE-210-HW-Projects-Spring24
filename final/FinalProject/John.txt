@@ -1,0 +1,10 @@
+AttackSpell
+attack
+1d4
+SaveSpell
+save
+dex
+5d6
+Healing
+heal
+2d5
